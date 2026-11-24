@@ -7,14 +7,13 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFont, QPainter, QColor
 from PyQt6.QtWidgets import QApplication, QWidget, QPlainTextEdit, QRadioButton, QPushButton, QLabel, QLineEdit, \
     QLCDNumber, QCheckBox, QMainWindow, QDialog
-from PyQt6 import uic
+from Ui import Ui_Form
 
-
-class FlagMaker(QWidget):
+class FlagMaker(QWidget, Ui_Form):
     def __init__(self):
         super().__init__()
         self.flag = False
-        uic.loadUi('UI.ui', self)
+        self.setupUi(self)
         self.pushButton.clicked.connect(self.run)
         self.setFixedSize(500, 500)
 
@@ -31,7 +30,7 @@ class FlagMaker(QWidget):
             self.flag = False
 
     def draw_flag(self, qp):
-        qp.setBrush(QColor("yellow"))
+        qp.setBrush(QColor(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)))
         size = random.randint(0, 400)
         qp.drawEllipse(100, 100, size, size)
 
