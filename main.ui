@@ -13,17 +13,14 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QTextBrowser" name="textBrowser">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>360</y>
-     <width>81</width>
-     <height>26</height>
+     <x>-5</x>
+     <y>1</y>
+     <width>481</width>
+     <height>391</height>
     </rect>
-   </property>
-   <property name="text">
-    <string>Нажми</string>
    </property>
   </widget>
  </widget>
