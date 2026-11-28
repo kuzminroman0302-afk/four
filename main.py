@@ -5,14 +5,16 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QTableWidgetItem, QMessageBox, QHeaderView)
 
+from ui_main import Ui_MainWindow
+from ui_add_edit_coffee import Ui_Form
 
-class AddCoffeeWidget(QMainWindow):
+
+class AddCoffeeWidget(QMainWindow, Ui_Form):
     def __init__(self, parent, coffee_id=None):
         super().__init__(parent)
+        self.setupUi(self)
         self.parent = parent
         self.coffee_id = coffee_id
-
-        uic.loadUi('addEditCoffeeForm.ui', self)
 
         self.roast.addItems(["Светлая", "Средняя", "Темная"])
         self.grind.addItems(["В зернах", "Молотый"])
@@ -31,7 +33,7 @@ class AddCoffeeWidget(QMainWindow):
             self.setWindowTitle("Добавление")
 
     def load_data(self):
-        con = sqlite3.connect("coffee.sqlite")
+        con = sqlite3.connect("data/coffee.sqlite")
         row = con.execute(
             "SELECT name, roast, grind_type, taste_description, price, package_volume "
             "FROM coffee WHERE id = ?", (self.coffee_id,)
@@ -49,7 +51,7 @@ class AddCoffeeWidget(QMainWindow):
         if not self.name.text().strip():
             QMessageBox.warning(self, "Ошибка", "Введите название.")
             return
-        con = sqlite3.connect("coffee.sqlite")
+        con = sqlite3.connect("data/coffee.sqlite")
         cur = con.cursor()
         if self.coffee_id:
             cur.execute(
@@ -72,10 +74,10 @@ class AddCoffeeWidget(QMainWindow):
         self.close()
 
 
-class MyWidget(QMainWindow):
+class MyWidget(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('main.ui', self)
+        self.setupUi(self)
 
         self.table.setEditTriggers(self.table.EditTrigger.NoEditTriggers)
         self.table.setSelectionBehavior(self.table.SelectionBehavior.SelectRows)
@@ -86,7 +88,7 @@ class MyWidget(QMainWindow):
         self.update_table()
 
     def update_table(self):
-        con = sqlite3.connect("coffee.sqlite")
+        con = sqlite3.connect("data/coffee.sqlite")
         rows = con.execute(
             "SELECT id, name, roast, grind_type, taste_description, price, package_volume FROM coffee"
         ).fetchall()
